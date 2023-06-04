@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+
+//To migrate this file use the command: npx prisma migrate dev
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Reinos {
+  id              Int     @id @default(autoincrement())
+  nombre          String
+  ubicacion       String
+  superficie      Int
+  personajes Personaje_habita_reino[]
+  defensas   Reino_tiene_defensa[]
+  diplomacia Diplomacias[] @relation("Reino1")
+  diplomacia2 Diplomacias[] @relation("Reino2")
+}
+
+model Diplomacias{
+  reino1            Reinos  @relation("Reino1", fields: [id_reino1], references: [id])
+  id_reino1         Int
+  reino2            Reinos  @relation("Reino2", fields: [id_reino2], references: [id])
+  id_reino2         Int
+  es_aliado         Boolean
+  @@id([id_reino1, id_reino2])
+}
+
+model Defensas {
+  id                  Int      @id @default(autoincrement())
+  defensa           String
+  reinos            Reino_tiene_defensa[]
+}
+
+model Reino_tiene_defensa{
+  reino             Reinos  @relation(fields: [id_reino], references: [id])
+  id_reino          Int
+  defensa           Defensas @relation(fields: [id_defensa], references: [id])
+  id_defensa        Int
+  @@id([id_reino, id_defensa])
+}
+
+model Personaje_habita_reino {
+  //personaje         Personaje   @relation(fields: [id_personaje], references: [id])
+  id_personaje      Int
+  reino             Reinos      @relation(fields: [id_reino], references: [id])
+  id_reino          Int
+  fecha_registro    DateTime
+  es_gobernante     Boolean
+
+  @@id([id_personaje,id_reino])
+}
