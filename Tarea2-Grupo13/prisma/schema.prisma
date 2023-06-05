@@ -59,18 +59,18 @@ model Diplomacias{
   @@id([id_reino1, id_reino2])
 }
 
-model Defensas {
-  id                  Int      @id @default(autoincrement())
-  defensa           String
-  reinos            Reino_tiene_defensa[]
-}
-
 model Reino_tiene_defensa{
   reino             Reinos  @relation(fields: [id_reino], references: [id])
   id_reino          Int
   defensa           Defensas @relation(fields: [id_defensa], references: [id])
   id_defensa        Int
   @@id([id_reino, id_defensa])
+}
+
+model Defensas {
+  id                  Int      @id @default(autoincrement())
+  defensa           String
+  reinos            Reino_tiene_defensa[]
 }
 
 model Personaje_habita_reino {
