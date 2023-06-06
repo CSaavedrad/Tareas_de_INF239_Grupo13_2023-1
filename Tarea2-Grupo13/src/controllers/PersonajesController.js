@@ -3,7 +3,7 @@ import prisma from '../prismaClient.js'
 //Create
 const createPersonaje = async (req, res) => {
     const { nombre, fuerza, fecha_nacimiento, objeto } = req.body
-    const personaje = await prisma.personaje.create({
+    const personaje = await prisma.Personajes.create({
         data: {
             nombre,
             fuerza,
@@ -18,13 +18,13 @@ const createPersonaje = async (req, res) => {
 
 //Read
 const getPersonajes = async (req, res) => {
-    const personajes = await prisma.personaje.findMany()
+    const personajes = await prisma.Personajes.findMany()
     res.json(personajes)
 }
 
 const getPersonajesbyID = async (req, res) => {
     const { id } = req.params
-    const personaje = await prisma.personaje.findUnique({
+    const personaje = await prisma.Personajes.findUnique({
         where: {
             id: Number(id)
         }
@@ -34,7 +34,7 @@ const getPersonajesbyID = async (req, res) => {
 
 const getPersonajeKarts = async (req, res) => {
     const { id } = req.params
-    const personaje = await prisma.personaje.findUnique({
+    const personaje = await prisma.Personajes.findUnique({
         where: {
             id: Number(id)
         },
@@ -51,7 +51,7 @@ const getPersonajeKarts = async (req, res) => {
 const updatePersonajeFuerza = async (req, res) => {
     const { fuerza } = req.body
     const { id } = req.params
-    const personaje = await prisma.personaje.update({
+    const personaje = await prisma.Personajes.update({
         where: {
             id: Number(id)
         },
@@ -65,7 +65,7 @@ const updatePersonajeFuerza = async (req, res) => {
 const updatePersonajeObjeto = async (req, res) => {
     const { objeto } = req.body
     const { id } = req.params
-    const personaje = await prisma.personaje.update({
+    const personaje = await prisma.Personajes.update({
         where: {
             id: Number(id)
         },
@@ -79,7 +79,7 @@ const updatePersonajeObjeto = async (req, res) => {
 //Delete
 const deletePersonaje = async (req, res) => {
     const { id } = req.params
-    const personaje = await prisma.personaje.delete({
+    const personaje = await prisma.Personajes.delete({
         where: {
             id: Number(id)
         }

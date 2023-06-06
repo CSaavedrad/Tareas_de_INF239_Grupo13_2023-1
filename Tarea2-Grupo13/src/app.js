@@ -18,8 +18,7 @@ app.get('/api/personajes/:id/karts', PersonajesController.getPersonajeKarts)
 app.put('/api/personajes/:id/fuerza', PersonajesController.updatePersonajeFuerza)
 app.put('/api/personajes/:id/objeto', PersonajesController.updatePersonajeObjeto)
 app.delete('/api/personajes', PersonajesController.deletePersonaje)
-
-//KARTS
+//CRUD Karts
 app.post('/api/karts', KartsController.createKart)
 app.get('/api/karts', KartsController.getKarts)
 app.get('/api/karts/:id', KartsController.getKartsbyID)
@@ -27,14 +26,12 @@ app.put('/api/karts/:id/color', KartsController.updateKartsColor)
 app.put('/api/karts/:id/velocidad', KartsController.updateKartsVel)
 app.put('/api/karts/:id/personaje', KartsController.updateKartsOwner)
 app.delete('/api/karts', KartsController.deleteKart)
-
-//CRUD TRABAJOS
+//CRUD Trabajos
 app.post('/api/trabajos', TrabajosController.createTrabajo)
 app.get('/api/trabajos', TrabajosController.getTrabajos)
 app.get('/api/trabajos/:id', TrabajosController.getTrabajosbyID)
 app.put('/api/trabajos/:id/sueldo', TrabajosController.updateTrabajoSueldo)
 app.delete('/api/trabajos/:id', TrabajosController.deleteTrabajo)
-
 //CRUD Reinos
 app.post('/api/reinos', ReinosController.createReino)
 app.get('/api/reinos', ReinosController.getReinos)
@@ -66,7 +63,6 @@ app.get('/api/personaje_habita_reino', Personaje_habita_reinoController.getPerso
 app.get('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.getPersonaje_reinobyIds)
 app.put('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.updatePersonaje_reinoes_gobernante)
 app.get('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.getPersonaje_reinobyIds)
-
 //CRUD Personaje_tiene_trabajo
 app.post('/api/personaje_tiene_trabajo', Personaje_tiene_trabajoController.createPersonaje_Trabajo)
 app.get('/api/personaje_tiene_trabajo', Personaje_tiene_trabajoController.getPersonaje_Trabajo)
