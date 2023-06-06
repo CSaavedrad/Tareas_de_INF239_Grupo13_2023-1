@@ -3,7 +3,7 @@ import prisma from '../prismaClient.js'
 //Create
 const createTrabajo = async (req, res) => {
     const { descripcion, sueldo } = req.body
-    const trabajo = await prisma.trabajos.create({
+    const trabajo = await prisma.Trabajos.create({
         data: {
             descripcion,
             sueldo
@@ -16,13 +16,13 @@ const createTrabajo = async (req, res) => {
 
 //Read
 const getTrabajos = async (req, res) => {
-    const trabajos = await prisma.trabajos.findMany()
+    const trabajos = await prisma.Trabajos.findMany()
     res.json(trabajos)
 }
 
 const getTrabajosbyID = async (req, res) => {
     const { id } = req.params
-    const trabajo = await prisma.trabajos.findUnique({
+    const trabajo = await prisma.Trabajos.findUnique({
         where: {
             id: Number(id)
         }
@@ -34,7 +34,7 @@ const getTrabajosbyID = async (req, res) => {
 const updateTrabajoSueldo = async (req, res) => {
     const { sueldo } = req.body
     const { id } = req.params
-    const trabajo = await prisma.trabajos.update({
+    const trabajo = await prisma.Trabajos.update({
         where: {
             id: Number(id)
         },
@@ -48,7 +48,7 @@ const updateTrabajoSueldo = async (req, res) => {
 //Delete
 const deleteTrabajo = async (req, res) => {
     const { id } = req.params
-    const trabajo = await prisma.trabajos.delete({
+    const trabajo = await prisma.Trabajos.delete({
         where: {
             id: Number(id)
         }

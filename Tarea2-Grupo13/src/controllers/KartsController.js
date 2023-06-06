@@ -3,7 +3,7 @@ import prisma from '../prismaClient.js'
 //Create
 const createKart = async (req, res) => {
     const { modelo, color, velocidadmax, id_personaje } = req.body
-    const karts = await prisma.karts.create({
+    const karts = await prisma.Karts.create({
         data: {
             modelo,
             color,
@@ -18,13 +18,13 @@ const createKart = async (req, res) => {
 
 //Read
 const getKarts = async (req, res) => {
-    const karts = await prisma.karts.findMany()
+    const karts = await prisma.Karts.findMany()
     res.json(karts)
 }
 
 const getKartsbyID = async (req, res) => {
     const { id } = req.params
-    const kart = await prisma.karts.findUnique({
+    const kart = await prisma.Karts.findUnique({
         where: {
             id: Number(id)
         }
@@ -36,7 +36,7 @@ const getKartsbyID = async (req, res) => {
 const updateKartsColor = async (req, res) => {
     const { color } = req.body
     const { id } = req.params
-    const kart = await prisma.karts.update({
+    const kart = await prisma.Karts.update({
         where: {
             id: Number(id)
         },
@@ -50,7 +50,7 @@ const updateKartsColor = async (req, res) => {
 const updateKartsVel = async (req, res) => {
     const { velocidadmax } = req.body
     const { id } = req.params
-    const kart = await prisma.karts.update({
+    const kart = await prisma.Karts.update({
         where: {
             id: Number(id)
         },
@@ -64,7 +64,7 @@ const updateKartsVel = async (req, res) => {
 const updateKartsOwner = async (req, res) => {
     const { id_personaje } = req.body
     const { id } = req.params
-    const kart = await prisma.karts.update({
+    const kart = await prisma.Karts.update({
         where: {
             id: Number(id)
         },
@@ -78,7 +78,7 @@ const updateKartsOwner = async (req, res) => {
 //Delete
 const deleteKart = async (req, res) => {
     const { id } = req.params
-    const kart = await prisma.karts.delete({
+    const kart = await prisma.Karts.delete({
         where: {
             id: Number(id)
         }
