@@ -9,6 +9,8 @@ import KartsController from './controllers/KartsController.js';
 import TrabajosController from './controllers/TrabajosController.js';
 import Personaje_tiene_trabajoController from './controllers/Personaje_tiene_trabajoController.js';
 import Endpoints from './controllers/Endpoints.js'; 
+
+import ErrorBaseController from './controllers/ExceptionController.js';
 import morgan from 'morgan';
 
 const ENV = process.env;
@@ -80,6 +82,8 @@ app.get('/api/personaje_tiene_trabajo/:id', Personaje_tiene_trabajoController.ge
 app.put('/api/personaje_tiene_trabajo/:id', Personaje_tiene_trabajoController.updatePersonaje_Trabajotermino)
 app.delete('/api/personaje_tiene_trabajo/:id', Personaje_tiene_trabajoController.deletePersonaje_Trabajo)
 
+app.get('/api/top5personajesConMasFuerza', Endpoints.getPersonajesbyFuerza)
+app.get('/api/personajeConMasKarts', Endpoints.getMasKarts)
 app.get('/api/cantidadHabitantes/:id', Endpoints.get_cantHabitantes)
 app.get('/api/gobernante', Endpoints.getGobernate)
 app.get('/api/gobernante/:id', Endpoints.getGobernate)
@@ -90,6 +94,8 @@ app.get('/', (req, res) => {
     res.json({ message: 'Hello World!!' });
 })
 //==========================================================//
+
+app.use(ErrorBaseController.middleware)
 
 
 // 404 not found route
