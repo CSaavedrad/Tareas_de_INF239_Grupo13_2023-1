@@ -1,4 +1,14 @@
 import express from 'express';
+import ReinosController from './controllers/ReinosController.js';
+import DiplomaciasController from './controllers/DiplomaciasController.js';
+import DefensasController from './controllers/DefensasController.js';
+import Reino_tiene_defensaController from './controllers/Reino_tiene_defensaController.js';
+import Personaje_habita_reinoController from './controllers/Personaje_habita_reinoController.js';
+import PersonajesController from './controllers/PersonajesController.js';
+import KartsController from './controllers/KartsController.js';
+import TrabajosController from './controllers/TrabajosController.js';
+import Personaje_tiene_trabajoController from './controllers/Personaje_tiene_trabajoController.js';
+import Endpoints from './controllers/Endpoints.js'; 
 import morgan from 'morgan';
 
 const ENV = process.env;
@@ -69,6 +79,10 @@ app.get('/api/personaje_tiene_trabajo', Personaje_tiene_trabajoController.getPer
 app.get('/api/personaje_tiene_trabajo/:id', Personaje_tiene_trabajoController.getPersonaje_TrabajobyId)
 app.put('/api/personaje_tiene_trabajo/:id', Personaje_tiene_trabajoController.updatePersonaje_Trabajotermino)
 app.delete('/api/personaje_tiene_trabajo/:id', Personaje_tiene_trabajoController.deletePersonaje_Trabajo)
+
+app.get('/api/cantidadHabitantes/:id', Endpoints.get_cantHabitantes)
+app.get('/api/gobernante', Endpoints.getGobernate)
+app.get('/api/gobernante/:id', Endpoints.getGobernate)
 
 
 //==========================================================//

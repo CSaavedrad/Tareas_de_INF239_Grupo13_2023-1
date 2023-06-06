@@ -29,25 +29,44 @@ const get_cantHabitantes = async (req, res) => {
 
 const getGobernate = async (req, res) => {
     const { id } = req.params
-    const personajes = await prisma.Personajes.findMany({
-        where: {
-            reinos: {
-                every: {
-                    es_gobernante: true,
+    if(id){
+        const personajes = await prisma.Personajes.findMany({
+            where: {
+                reinos: {
+                    every: {
+                        es_gobernante: true,
+                        id_reino: Number(id)
+                    },
                 },
             },
-        },
-        select:{
-            id: true,
-            nombre: true,
-            reinos:{
-                select:{
-                    id_reino: true
+            select:{
+                id: true,
+                nombre: true
+            },
+        })
+        res.json(personajes)
+    }
+    else{
+        const personajes = await prisma.Personajes.findMany({
+            where: {
+                reinos: {
+                    every: {
+                        es_gobernante: true,
+                    },
+                },
+            },
+            select:{
+                id: true,
+                nombre: true,
+                reinos:{
+                    select:{
+                        id_reino: true
+                    }
                 }
-            }
-        },
-    })
-    res.json(personajes)
+            },
+        })
+        res.json(personajes)
+    }
 }
 
 /*const getGobernate = async (req, res) => {
