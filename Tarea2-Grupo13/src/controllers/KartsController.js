@@ -2,12 +2,12 @@ import prisma from '../prismaClient.js'
 
 //Create
 const createKart = async (req, res) => {
-    const { modelo, color, velocidadmax, id_personaje } = req.body
+    const { modelo, color, velocidad_maxima, id_personaje } = req.body
     const karts = await prisma.Karts.create({
         data: {
             modelo,
             color,
-            velocidadmax,
+            velocidad_maxima,
             id_personaje
         }
     })

@@ -7,7 +7,7 @@ const createPersonaje = async (req, res) => {
         data: {
             nombre,
             fuerza,
-            fecha_nacimiento,
+            fecha_nacimiento: new Date(fecha_nacimiento),
             objeto
         }
     })
