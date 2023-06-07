@@ -11,6 +11,25 @@ const getPersonajesbyFuerza = async (req , res) => {
     )
     res.json(personajes)
 }
+const getMasKarts = async (req, res) => {
+    const personajes = await prisma.Personajes.findMany(
+        {
+
+            include: {
+                _count: {
+                    select: { karts: true },
+                },
+            },
+            orderBy: {
+                karts: {
+                    _count: 'desc',
+                },
+            },
+            take: 1
+        }
+    )
+    res.json(personajes)
+}
 
 const get_cantHabitantes = async (req, res) => {
     const { id } = req.params
@@ -84,7 +103,11 @@ const getGobernate = async (req, res) => {
     res.json(personajes)
 }*/
 
+
+
 const Endpoints = {
+    getMasKarts,
+    getPersonajesbyFuerza,
     get_cantHabitantes,
     getGobernate
 }
