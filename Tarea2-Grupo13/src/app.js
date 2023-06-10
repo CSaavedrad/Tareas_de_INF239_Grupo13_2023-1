@@ -74,7 +74,7 @@ app.post('/api/personaje_habita_reino', Personaje_habita_reinoController.createP
 app.get('/api/personaje_habita_reino', Personaje_habita_reinoController.getPersonaje_reino)
 app.get('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.getPersonaje_reinobyIds)
 app.put('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.updatePersonaje_reinoes_gobernante)
-app.get('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.getPersonaje_reinobyIds)
+app.delete('/api/personaje_habita_reino/:id', Personaje_habita_reinoController.deletePersonaje_reino)
 //CRUD Personaje_tiene_trabajo
 app.post('/api/personaje_tiene_trabajo', Personaje_tiene_trabajoController.createPersonaje_Trabajo)
 app.get('/api/personaje_tiene_trabajo', Personaje_tiene_trabajoController.getPersonaje_Trabajo)
