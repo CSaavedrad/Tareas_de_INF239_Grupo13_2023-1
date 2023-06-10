@@ -16,8 +16,8 @@ const createPersonaje_Trabajo = async (req, res) => {
                     id: id_trabajo,
                 },
             },
-            fecha_inicio,
-            fecha_termino
+            fecha_inicio: new Date(fecha_inicio),
+            fecha_termino: new Date(fecha_termino)
         }
     })
     res.json(Personaje_Trabajo)

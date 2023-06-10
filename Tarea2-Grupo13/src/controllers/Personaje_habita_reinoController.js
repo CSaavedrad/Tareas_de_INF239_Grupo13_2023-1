@@ -6,7 +6,7 @@ const createPersonaje_reino = async (req, res) => {
     const { id_personaje, id_reino, fecha_registro, es_gobernante} = req.body
     const personaje_reino = await prisma.Personaje_habita_reino.create({
         data: {
-            fecha_registro,
+            fecha_registro: new Date(fecha_registro + "+00:00"),
             es_gobernante,
             personaje: {
                 connect: {
