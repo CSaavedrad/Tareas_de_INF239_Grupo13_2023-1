@@ -3,13 +3,27 @@ import prisma from '../prismaClient.js'
 //Create
 
 const createDefensa = async (req, res) => {
-    const { defensa } = req.body
-    const Defensa = await prisma.Defensas.create({
-        data: {
-            defensa
+    try{
+        const { defensa } = req.body
+
+        if(defensa == null){
+            return res.status(402).json({ error: 'defensa debe tener algún valor' });
+        } else if(typeof defensa != 'string'){
+            return res.status(402).json({ error: 'defensa debe ser de tipo string' });
+        } else if(defensa.length > 45){
+            return res.status(402).json({ error: 'defensa no debe tener mas de 45 caracteres' });
         }
-    })
-    res.json(Defensa)
+
+        const Defensa = await prisma.Defensas.create({
+            data: {
+                defensa
+            }
+        })
+        res.json(Defensa)
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({error: "error al crear Defensa"});
+    }
 }
 
 //Read

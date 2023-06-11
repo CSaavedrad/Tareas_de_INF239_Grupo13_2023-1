@@ -3,15 +3,44 @@ import prisma from '../prismaClient.js'
 // Create
 
 const createReino = async (req, res) => {
-    const { nombre, ubicacion, superficie } = req.body
-    const reino = await prisma.Reinos.create({
-        data: {
-            nombre,
-            ubicacion,
-            superficie
+    try{
+        const { nombre, ubicacion, superficie } = req.body
+
+        if(nombre == null){
+            return res.status(403).json({ error: 'nombre debe tener algún valor' });
+        } else if(typeof nombre != 'string'){
+            return res.status(403).json({ error: 'nombre debe ser de tipo string' });
+        } else if(nombre.length > 45){
+            return res.status(403).json({ error: 'nombre no debe tener mas de 45 caracteres' });
         }
-    })
-    res.json(reino)
+
+        if(ubicacion == null){
+            return res.status(403).json({ error: 'ubicacion debe tener algún valor' });
+        } else if(typeof ubicacion != 'string'){
+            return res.status(403).json({ error: 'ubicacion debe ser de tipo string' });
+        } else if(ubicacion.length > 45){
+            return res.status(403).json({ error: 'ubicacion no debe tener mas de 45 caracteres' });
+        } 
+
+        if(superficie == null){
+            return res.status(403).json({ error: 'superficie debe tener algún valor' });
+        } else if(typeof superficie != 'number'){
+            return res.status(403).json({ error: 'superficie debe ser un numero' });
+        }
+
+
+        const reino = await prisma.Reinos.create({
+            data: {
+                nombre,
+                ubicacion,
+                superficie
+            }
+        });
+        res.json(reino)
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al crear el Reino'});
+    }
 }
 
 // Read

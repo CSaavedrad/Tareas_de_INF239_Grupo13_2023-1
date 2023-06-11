@@ -3,24 +3,58 @@ import prisma from "../prismaClient.js"
 //Create
 
 const createPersonaje_Trabajo = async (req, res) => {
-    const { id_personaje , id_trabajo , fecha_inicio , fecha_termino } = req.body
-    const Personaje_Trabajo = await prisma.Personaje_tiene_trabajo.create({
-        data: {
-            personaje: {
-                connect: {
-                    id: id_personaje,
-                },
-            },
-            trabajo: {
-                connect: {
-                    id: id_trabajo,
-                },
-            },
-            fecha_inicio: new Date(fecha_inicio),
-            fecha_termino: new Date(fecha_termino)
+    try{
+        const { id_personaje , id_trabajo , fecha_inicio , fecha_termino } = req.body
+
+        if(id_personaje == null){
+            return res.status(400).json({ error: 'id_personaje debe tener algún valor' });
+        } else if(typeof id_personaje != 'number'){
+            return res.status(400).json({ error: 'id_personaje debe ser un numero' });
         }
-    })
-    res.json(Personaje_Trabajo)
+
+        if(id_trabajo == null){
+            return res.status(400).json({ error: 'id_trabajo debe tener algún valor' });
+        } else if(typeof id_trabajo != 'number'){
+            return res.status(400).json({ error: 'id_trabajo debe ser un numero' });
+        }
+
+        if(fecha_inicio == null){
+            return res.status(400).json({ error: 'fecha_inicio debe tener algún valor' });
+        } else if(typeof fecha_inicio != 'string'){
+            return res.status(400).json({ error: 'fecha_inicio debe ser mandada como string' });
+        } else if(!/(\d{4}-\d{2}-\d{2}|\d{4}\/\d{2}\/\d{2})/.test(fecha_inicio)){
+            return res.status(400).json({ error: 'fecha_inicio debe tener formato AAAA-MM-DD o AAAA/MM/DD' });
+        }
+
+        if(fecha_termino != null){
+            if(typeof fecha_termino != 'string'){
+                return res.status(400).json({ error: 'fecha_termino debe ser mandada como string' });
+            } else if(!/(\d{4}-\d{2}-\d{2}|\d{4}\/\d{2}\/\d{2})/.test(fecha_termino)){
+                return res.status(400).json({ error: 'fecha_termino debe tener formato AAAA-MM-DD o AAAA/MM/DD' });
+            }
+        }
+
+        const Personaje_Trabajo = await prisma.Personaje_tiene_trabajo.create({
+            data: {
+                personaje: {
+                    connect: {
+                        id: id_personaje,
+                    },
+                },
+                trabajo: {
+                    connect: {
+                        id: id_trabajo,
+                    },
+                },
+                fecha_inicio: new Date(fecha_inicio),
+                fecha_termino: new Date(fecha_termino)
+            }
+        })
+        res.json(Personaje_Trabajo)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al crear la relacion Persona_Trabajo'});
+    }
 }
 
 //Read

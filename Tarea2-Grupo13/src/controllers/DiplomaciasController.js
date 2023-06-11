@@ -3,23 +3,47 @@ import prisma from '../prismaClient.js'
 //Create
 
 const createDiplomacia = async (req, res) => {
-    const { id_reino1, id_reino2, es_aliado} = req.body
-    const Diplomacia = await prisma.Diplomacias.create({
-        data: {
-            es_aliado,
-            reino1: {
-                connect: {
-                    id: id_reino1,
-                },
-            },
-            reino2: {
-                connect: {
-                    id: id_reino2,
-                },
-            }
+    try{
+        const { id_reino1, id_reino2, es_aliado} = req.body
+
+        if(id_reino1 == null){
+            return res.status(400).json({ error: 'id_reino1 debe tener algún valor' });
+        } else if(typeof id_reino1 != 'number'){
+            return res.status(400).json({ error: 'id_reino1 debe ser un numero' });
         }
-    })
-    res.json(Diplomacia)
+
+        if(id_reino2 == null){
+            return res.status(400).json({ error: 'id_reino2 debe tener algún valor' });
+        } else if(typeof id_reino2 != 'number'){
+            return res.status(400).json({ error: 'id_reino2 debe ser un numero' });
+        }
+
+        if(es_aliado == null){
+            return res.status(400).json({ error: 'es_aliado debe tener algún valor' });
+        } else if(typeof es_aliado != 'boolean'){
+            return res.status(400).json({ error: 'es_aliado debe ser un booleano' });
+        }
+
+        const Diplomacia = await prisma.Diplomacias.create({
+            data: {
+                es_aliado,
+                reino1: {
+                    connect: {
+                        id: id_reino1,
+                    },
+                },
+                reino2: {
+                    connect: {
+                        id: id_reino2,
+                    },
+                }
+            }
+        })
+        res.json(Diplomacia)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al crear la relacion Diplomacia'});
+    }
 }
 
 //Read

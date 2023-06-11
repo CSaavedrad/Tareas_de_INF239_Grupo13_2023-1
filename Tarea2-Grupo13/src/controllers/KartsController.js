@@ -2,16 +2,50 @@ import prisma from '../prismaClient.js'
 
 //Create
 const createKart = async (req, res) => {
-    const { modelo, color, velocidad_maxima, id_personaje } = req.body
-    const karts = await prisma.Karts.create({
-        data: {
-            modelo,
-            color,
-            velocidad_maxima,
-            id_personaje
+    try{
+        const { modelo, color, velocidad_maxima, id_personaje } = req.body
+
+        if(modelo == null){
+            return res.status(401).json({ error: 'modelo debe tener algún valor' });
+        } else if(typeof modelo != 'string'){
+            return res.status(401).json({ error: 'modelo debe ser de tipo string' });
+        } else if(modelo.length > 45){
+            return res.status(401).json({ error: 'modelo no debe tener mas de 45 caracteres' });
         }
-    })
-    res.json(karts)
+
+        if(color == null){
+            return res.status(401).json({ error: 'color debe tener algún valor' });
+        } else if(typeof color != 'string'){
+            return res.status(401).json({ error: 'color debe ser de tipo string' });
+        } else if(color.length > 45){
+            return res.status(401).json({ error: 'color no debe tener mas de 45 caracteres' });
+        }
+        if(velocidad_maxima != null){
+            if(typeof velocidad_maxima != 'number'){
+                return res.status(401).json({ error: 'velocidad_maxima debe ser un numero' });
+            }
+        }
+
+        if(id_personaje != null){
+            if(typeof id_personaje != 'number'){
+                return res.status(401).json({ error: 'id_personaje debe ser un numero' });
+            }
+        }
+
+
+        const karts = await prisma.Karts.create({
+            data: {
+                modelo,
+                color,
+                velocidad_maxima,
+                id_personaje
+            }
+        });
+        res.json(karts)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al crear el Kart'});
+    }
 }
 
 

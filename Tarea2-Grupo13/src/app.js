@@ -10,7 +10,7 @@ import TrabajosController from './controllers/TrabajosController.js';
 import Personaje_tiene_trabajoController from './controllers/Personaje_tiene_trabajoController.js';
 import Endpoints from './controllers/Endpoints.js'; 
 
-import ErrorBaseController from './controllers/ExceptionController.js';
+
 import morgan from 'morgan';
 
 const ENV = process.env;
@@ -95,7 +95,6 @@ app.get('/', (req, res) => {
 })
 //==========================================================//
 
-app.use(ErrorBaseController.middleware)
 
 
 // 404 not found route

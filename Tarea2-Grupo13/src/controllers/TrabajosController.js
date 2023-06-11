@@ -2,14 +2,34 @@ import prisma from '../prismaClient.js'
 
 //Create
 const createTrabajo = async (req, res) => {
-    const { descripcion, sueldo } = req.body
-    const trabajo = await prisma.Trabajos.create({
-        data: {
-            descripcion,
-            sueldo
+    try{
+        const { descripcion, sueldo } = req.body
+
+        if(descripcion != null){
+            if(typeof descripcion != 'string'){
+                return res.status(404).json({ error: 'descripcion debe ser de tipo string' });
+            } else if(descripcion.length > 45){
+                return res.status(404).json({ error: 'descripcion no debe tener mas de 45 caracteres' });
+            }
         }
-    })
-    res.json(trabajo)
+
+        if(sueldo == null){
+            return res.status(404).json({ error: 'sueldo debe tener algún valor' });
+        } else if(typeof sueldo != 'number'){
+            return res.status(404).json({ error: 'sueldo debe ser un numero' });
+        }
+
+        const trabajo = await prisma.Trabajos.create({
+            data: {
+                descripcion,
+                sueldo
+            }
+        })
+        res.json(trabajo)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al crear el Trabajo'});
+    }
 }
 
 
