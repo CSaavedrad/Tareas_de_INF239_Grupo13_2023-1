@@ -16,7 +16,7 @@ const createTrabajo = async (req, res) => {
         if(sueldo == null){
             return res.status(404).json({ error: 'sueldo debe tener algún valor' });
         } else if(typeof sueldo != 'number'){
-            return res.status(404).json({ error: 'sueldo debe ser un numero' });
+            return res.status(404).json({ error: 'sueldo debe ser un número' });
         }
 
         const trabajo = await prisma.Trabajos.create({
@@ -51,6 +51,22 @@ const getTrabajosbyID = async (req, res) => {
 }
 
 //Update
+
+const updateTrabajo = async (req, res) => {
+    const { descripcion, sueldo } = req.body
+    const { id } = req.params
+    const trabajo = await prisma.Trabajos.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            descripcion,
+            sueldo
+        }
+    })
+    res.json(trabajo)
+}
+
 const updateTrabajoSueldo = async (req, res) => {
     const { sueldo } = req.body
     const { id } = req.params
@@ -81,6 +97,7 @@ const TrabajosController = {
     createTrabajo,
     getTrabajos,
     getTrabajosbyID,
+    updateTrabajo,
     updateTrabajoSueldo,
     deleteTrabajo
 }

@@ -22,13 +22,13 @@ const createKart = async (req, res) => {
         }
         if(velocidad_maxima != null){
             if(typeof velocidad_maxima != 'number'){
-                return res.status(401).json({ error: 'velocidad_maxima debe ser un numero' });
+                return res.status(401).json({ error: 'velocidad_maxima debe ser un número' });
             }
         }
 
         if(id_personaje != null){
             if(typeof id_personaje != 'number'){
-                return res.status(401).json({ error: 'id_personaje debe ser un numero' });
+                return res.status(401).json({ error: 'id_personaje debe ser un número' });
             }
         }
 
@@ -67,6 +67,24 @@ const getKartsbyID = async (req, res) => {
 }
 
 //Update
+
+const updateKarts = async (req, res) => {
+    const { id } = req.params
+    const { modelo, color, velocidad_maxima, id_personaje } = req.body
+    const kart = await prisma.Karts.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            modelo,
+            color,
+            velocidad_maxima,
+            id_personaje
+        }
+    })
+    res.json(kart)
+}
+
 const updateKartsColor = async (req, res) => {
     const { color } = req.body
     const { id } = req.params
@@ -82,14 +100,14 @@ const updateKartsColor = async (req, res) => {
 }
 
 const updateKartsVel = async (req, res) => {
-    const { velocidadmax } = req.body
+    const { velocidad_maxima } = req.body
     const { id } = req.params
     const kart = await prisma.Karts.update({
         where: {
             id: Number(id)
         },
         data: {
-            velocidadmax
+            velocidad_maxima
         }
     })
     res.json(kart)
@@ -125,6 +143,7 @@ const KartsController = {
     createKart,
     getKarts,
     getKartsbyID,
+    updateKarts,
     updateKartsColor,
     updateKartsVel,
     updateKartsOwner,

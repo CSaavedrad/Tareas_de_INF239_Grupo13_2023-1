@@ -16,7 +16,7 @@ const createPersonaje = async (req, res) => {
         if(fuerza == null){
             return res.status(400).json({ error: 'fuerza debe tener algún valor' });
         } else if(typeof fuerza != 'number'){
-            return res.status(400).json({ error: 'fuerza debe ser un numero' });
+            return res.status(400).json({ error: 'fuerza debe ser un número' });
         }
 
         if(fecha_nacimiento == null){
@@ -85,6 +85,23 @@ const getPersonajeKarts = async (req, res) => {
 
 //Update
 
+const updatePersonaje = async (req, res) => {
+    const { id } = req.params
+    const { nombre, fuerza, fecha_nacimiento, objeto } = req.body
+    const personaje = await prisma.Personajes.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            nombre,
+            fuerza,
+            fecha_nacimiento: new Date(fecha_nacimiento),
+            objeto
+        }
+    })
+    res.json(personaje)
+}
+
 const updatePersonajeFuerza = async (req, res) => {
     const { fuerza } = req.body
     const { id } = req.params
@@ -130,6 +147,7 @@ const PersonajesController = {
     getPersonajes,
     getPersonajesbyID,
     getPersonajeKarts,
+    updatePersonaje,
     updatePersonajeFuerza,
     updatePersonajeObjeto,
     deletePersonaje

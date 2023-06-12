@@ -9,13 +9,13 @@ const createPersonaje_Trabajo = async (req, res) => {
         if(id_personaje == null){
             return res.status(400).json({ error: 'id_personaje debe tener algún valor' });
         } else if(typeof id_personaje != 'number'){
-            return res.status(400).json({ error: 'id_personaje debe ser un numero' });
+            return res.status(400).json({ error: 'id_personaje debe ser un número' });
         }
 
         if(id_trabajo == null){
             return res.status(400).json({ error: 'id_trabajo debe tener algún valor' });
         } else if(typeof id_trabajo != 'number'){
-            return res.status(400).json({ error: 'id_trabajo debe ser un numero' });
+            return res.status(400).json({ error: 'id_trabajo debe ser un número' });
         }
 
         if(fecha_inicio == null){
@@ -53,7 +53,7 @@ const createPersonaje_Trabajo = async (req, res) => {
         res.json(Personaje_Trabajo)
     } catch(error){
         console.error(error);
-        res.status(500).json({error: 'Error al crear la relacion Persona_Trabajo'});
+        res.status(500).json({error: 'Error al crear la relación Persona_Trabajo'});
     }
 }
 
@@ -66,26 +66,49 @@ const getPersonaje_Trabajo = async (req, res) => {
 
 const getPersonaje_TrabajobyId = async (req, res) => {
     const { id_personaje, id_trabajo } = req.params
-    const personaje = await prisma.Personaje_tiene_trabajo.findMany({
+    const Personaje_Trabajo = await prisma.Personaje_tiene_trabajo.findUnique({
         where: {
-            id_personaje: Number(id_personaje),
-            id_trabajo: Number(id_trabajo)
+            id_personaje_id_trabajo: {
+                id_personaje: Number(id_personaje),
+                id_trabajo: Number(id_trabajo)
+            }
         }
     })
-    res.json(personaje)
+    res.json(Personaje_Trabajo)
 } 
 
 //Update
 
-const updatePersonaje_Trabajotermino = async (req, res) => {
-    const { fecha_termino } = req.body
-    const { id } = req.params
+const updatePersonaje_Trabajo = async (req, res) => {
+    const { fecha_inicio , fecha_termino } = req.body
+    const { id_personaje, id_trabajo } = req.params
     const Personaje_Trabajo = await prisma.Personaje_tiene_trabajo.update({
         where: {
-            id: Number(id)
+            id_personaje_id_trabajo: {
+                id_personaje: Number(id_personaje),
+                id_trabajo: Number(id_trabajo)
+            }
         },
         data: {
-            fecha_termino
+            fecha_inicio: new Date(fecha_inicio),
+            fecha_termino: new Date(fecha_termino)
+        }
+    })
+    res.json(Personaje_Trabajo)
+}
+
+const updatePersonaje_Trabajotermino = async (req, res) => {
+    const { fecha_termino } = req.body
+    const { id_personaje, id_trabajo } = req.params
+    const Personaje_Trabajo = await prisma.Personaje_tiene_trabajo.update({
+        where: {
+            id_personaje_id_trabajo: {
+                id_personaje: Number(id_personaje),
+                id_trabajo: Number(id_trabajo)
+            }
+        },
+        data: {
+            fecha_termino: new Date(fecha_termino)
         }
     })
     res.json(Personaje_Trabajo)
@@ -93,11 +116,14 @@ const updatePersonaje_Trabajotermino = async (req, res) => {
 
 //Delete
 
-const deletePersonaje_Trabajo= async (req, res) => {
-    const { id } = req.params
+const deletePersonaje_Trabajo = async (req, res) => {
+    const { id_personaje, id_trabajo } = req.params
     const Personaje_Trabajo = await prisma.Personaje_tiene_trabajo.delete({
         where: {
-            id: Number(id)
+            id_personaje_id_trabajo: {
+                id_personaje: Number(id_personaje),
+                id_trabajo: Number(id_trabajo)
+            }
         }
     })
     res.json(Personaje_Trabajo)
@@ -107,6 +133,7 @@ const Personaje_tiene_trabajoController = {
     createPersonaje_Trabajo,
     getPersonaje_Trabajo,
     getPersonaje_TrabajobyId,
+    updatePersonaje_Trabajo,
     updatePersonaje_Trabajotermino,
     deletePersonaje_Trabajo
 }

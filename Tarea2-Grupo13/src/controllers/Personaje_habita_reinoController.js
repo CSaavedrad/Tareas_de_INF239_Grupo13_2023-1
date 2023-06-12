@@ -4,18 +4,18 @@ import prisma from '../prismaClient.js'
 
 const createPersonaje_reino = async (req, res) => {
     try {
-        const { id_personaje, id_reino, fecha_registro, es_gobernante} = req.body
+        const { id_personaje, id_reino, fecha_registro, es_gobernante } = req.body
 
         if(id_personaje == null){
             return res.status(400).json({ error: 'id_personaje debe tener algún valor' });
         } else if(typeof id_personaje != 'number'){
-            return res.status(400).json({ error: 'id_personaje debe ser un numero' });
+            return res.status(400).json({ error: 'id_personaje debe ser un número' });
         }
 
         if(id_reino == null){
             return res.status(400).json({ error: 'id_reino debe tener algún valor' });
         } else if(typeof id_reino != 'number'){
-            return res.status(400).json({ error: 'id_reino debe ser un numero' });
+            return res.status(400).json({ error: 'id_reino debe ser un número' });
         }
 
         if(fecha_registro == null){
@@ -51,7 +51,7 @@ const createPersonaje_reino = async (req, res) => {
         res.json(personaje_reino)
     } catch(error){
         console.error(error);
-        res.status(500).json({error: 'Error al crear la relacion Persona_Reino'});
+        res.status(500).json({error: 'Error al crear la relación Persona_Reino'});
     }
 }
 
@@ -64,10 +64,12 @@ const getPersonaje_reino = async (req , res) => {
 
 const getPersonaje_reinobyIds = async (req, res) => {
     const { id_personaje, id_reino } = req.params
-    const personaje_reino = await prisma.Personaje_habita_reino.findMany({
+    const personaje_reino = await prisma.Personaje_habita_reino.findUnique({
         where: {
-            id_personaje: id_personaje,
-            id_reino: id_reino
+            id_personaje_id_reino: {
+                id_personaje: Number(id_personaje),
+                id_reino: Number(id_reino)
+            }
         }
     })
     res.json(personaje_reino)
@@ -75,15 +77,18 @@ const getPersonaje_reinobyIds = async (req, res) => {
 
 //Update
 
-const updatePersonaje_reinoes_gobernante = async (req, res) => {
+const updatePersonaje_reino = async (req, res) => {
     const { id_personaje, id_reino } = req.params
-    const { es_gobernante } = req.body
+    const { fecha_registro, es_gobernante } = req.body
     const personaje_reino = await prisma.Personaje_habita_reino.update({
         where: {
-            id_personaje: id_personaje,
-            id_reino: id_reino
+            id_personaje_id_reino: {
+                id_personaje: Number(id_personaje),
+                id_reino: Number(id_reino)
+            }
         },
         data: {
+            fecha_registro: new Date(fecha_registro + "+00:00"),
             es_gobernante
         }
     })
@@ -96,8 +101,10 @@ const deletePersonaje_reino = async (req, res) => {
     const { id_personaje, id_reino } = req.params
     const personaje_reino = await prisma.Personaje_habita_reino.delete({
         where: {
-            id_personaje: id_personaje,
-            id_reino: id_reino
+            id_personaje_id_reino: {
+                id_personaje: Number(id_personaje),
+                id_reino: Number(id_reino)
+            }
         }
     })
     res.json(personaje_reino)
@@ -107,7 +114,7 @@ const Personaje_habita_reinoController = {
     createPersonaje_reino,
     getPersonaje_reino,
     getPersonaje_reinobyIds,
-    updatePersonaje_reinoes_gobernante,
+    updatePersonaje_reino,
     deletePersonaje_reino
 }
 

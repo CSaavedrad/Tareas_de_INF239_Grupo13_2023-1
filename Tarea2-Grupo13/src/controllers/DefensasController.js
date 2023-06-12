@@ -50,7 +50,11 @@ const defensasReinos = async (req, res) => {
             id: Number(id)
         },
         include: {
-            reinos: true
+            reinos:{
+                select:{
+                    id_reino: true
+                }
+            }
         }
     })
     res.json(defensa)
@@ -58,7 +62,7 @@ const defensasReinos = async (req, res) => {
 
 //Update
 
-const updateDefensaDefensa = async (req, res) => {
+const updateDefensa = async (req, res) => {
     const { defensa } = req.body
     const { id } = req.params
     const Defensa = await prisma.Defensas.update({
@@ -90,7 +94,7 @@ const DefensasController = {
     getDefensas,
     getDefensabyID,
     defensasReinos,
-    updateDefensaDefensa,
+    updateDefensa,
     deleteDefensa
 }
 

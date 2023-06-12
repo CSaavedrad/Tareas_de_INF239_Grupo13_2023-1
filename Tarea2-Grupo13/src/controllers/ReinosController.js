@@ -25,7 +25,7 @@ const createReino = async (req, res) => {
         if(superficie == null){
             return res.status(403).json({ error: 'superficie debe tener algún valor' });
         } else if(typeof superficie != 'number'){
-            return res.status(403).json({ error: 'superficie debe ser un numero' });
+            return res.status(403).json({ error: 'superficie debe ser un número' });
         }
 
 
@@ -75,6 +75,22 @@ const reinoDiplomacias = async (req, res) => {
 
 //Update
 
+const updateReino = async (req, res) => {
+    const { id } = req.params
+    const { nombre, ubicacion, superficie } = req.body
+    const reino = await prisma.Reinos.update({
+        where: {
+            id: Number(id)
+        },
+        data: {
+            nombre,
+            ubicacion,
+            superficie
+        }
+    })
+    res.json(reino)
+}
+
 const updateReinoSuperficie = async (req, res) => {
     const { id } = req.params
     const { superficie } = req.body
@@ -107,6 +123,7 @@ const ReinosController = {
     getReinos,
     getReinobyId,
     reinoDiplomacias,
+    updateReino,
     updateReinoSuperficie,
     deleteReino
 }
