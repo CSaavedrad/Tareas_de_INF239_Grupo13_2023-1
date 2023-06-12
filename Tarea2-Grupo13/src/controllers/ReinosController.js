@@ -70,6 +70,42 @@ const getReinobyId = async (req, res) => {
     }
 }
 
+const getReinoPersonajes = async (req, res) => {
+    try{
+        const { id } = req.params
+        const reino = await prisma.Reinos.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                personajes: true
+            }
+        })
+        res.json(reino)
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al ver los personajes del Reino'});
+    }
+}
+
+const getReinoDefensas = async (req, res) => {
+    try{
+        const { id } = req.params
+        const reino = await prisma.Reinos.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                defensas: true
+            }
+        })
+        res.json(reino)
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al ver las defensas del Reino'});
+    }
+}
+
 const reinoDiplomacias = async (req, res) => {
     try{
         const { id } = req.params
@@ -78,7 +114,8 @@ const reinoDiplomacias = async (req, res) => {
                 id: Number(id)
             },
             include: {
-                diplomacia: true
+                diplomacia: true,
+                diplomacia2: true
             }
         })
         res.json(reino)
@@ -182,6 +219,8 @@ const ReinosController = {
     createReino,
     getReinos,
     getReinobyId,
+    getReinoPersonajes,
+    getReinoDefensas,
     reinoDiplomacias,
     updateReino,
     updateReinoSuperficie,

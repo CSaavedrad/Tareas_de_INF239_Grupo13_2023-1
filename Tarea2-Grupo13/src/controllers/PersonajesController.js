@@ -97,6 +97,41 @@ const getPersonajeKarts = async (req, res) => {
     }
 }
 
+const getPersonajeTrabajos = async (req, res) => {
+    try{
+        const { id } = req.params
+        const personaje = await prisma.Personajes.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                trabajos: true
+            }
+        })
+        res.json(personaje)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al ver los trabajos del Personaje'});
+    }
+}
+
+const getPersonajeReinos = async (req, res) => {
+    try{
+        const { id } = req.params
+        const personaje = await prisma.Personajes.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                reinos: true
+            }
+        })
+        res.json(personaje)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al ver los reinos del Personaje'});
+    }
+}
 
 //Update
 
@@ -229,6 +264,8 @@ const PersonajesController = {
     getPersonajes,
     getPersonajesbyID,
     getPersonajeKarts,
+    getPersonajeTrabajos,
+    getPersonajeReinos,
     updatePersonaje,
     updatePersonajeFuerza,
     updatePersonajeObjeto,

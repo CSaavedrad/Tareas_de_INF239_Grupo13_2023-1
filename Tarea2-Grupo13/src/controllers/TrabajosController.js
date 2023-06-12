@@ -60,6 +60,24 @@ const getTrabajosbyID = async (req, res) => {
     }
 }
 
+const getTrabajoPersonajes = async (req, res) => {
+    try{
+        const { id } = req.params
+        const trabajo = await prisma.Trabajos.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: {
+                personajes: true
+            }
+        })
+        res.json(trabajo)
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({error: 'Error al ver los personajes del Trabajo'});
+    }
+}
+
 //Update
 
 const updateTrabajo = async (req, res) => {
@@ -144,6 +162,7 @@ const TrabajosController = {
     createTrabajo,
     getTrabajos,
     getTrabajosbyID,
+    getTrabajoPersonajes,
     updateTrabajo,
     updateTrabajoSueldo,
     deleteTrabajo
