@@ -43,36 +43,52 @@ const createReino_Defensa = async (req, res) => {
 //Read
 
 const getReinos_Defensas = async (req , res) => {
-    const Reinos_tienen_defensas = await prisma.Reino_tiene_defensa.findMany()
-    res.json(Reinos_tienen_defensas)
+    try{
+        const Reinos_tienen_defensas = await prisma.Reino_tiene_defensa.findMany()
+        res.json(Reinos_tienen_defensas)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al ver las relaciones Reino_Defensa'});
+    }
 }
 
 const getReino_DefensabyId = async (req, res) => {
-    const { id_reino, id_defensa } = req.params
-    const reino_defensa = await prisma.Reino_tiene_defensa.findUnique({
-        where: {
-            id_reino_id_defensa: {
-                id_reino: Number(id_reino),
-                id_defensa: Number(id_defensa)
+    try{
+        const { id_reino, id_defensa } = req.params
+        const reino_defensa = await prisma.Reino_tiene_defensa.findUnique({
+            where: {
+                id_reino_id_defensa: {
+                    id_reino: Number(id_reino),
+                    id_defensa: Number(id_defensa)
+                }
             }
-        }
-    })
-    res.json(reino_defensa)
+        })
+        res.json(reino_defensa)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al ver la relación Reino_Defensa'});
+    }
+    
 }
 
 //Delete
 
 const deleteReino_Defensa = async (req, res) => {
-    const { id_reino, id_defensa } = req.params
-    const reino_defensa = await prisma.Reino_tiene_defensa.delete({
-        where: {
-            id_reino_id_defensa: {
-                id_reino: Number(id_reino),
-                id_defensa: Number(id_defensa)
+    try{
+        const { id_reino, id_defensa } = req.params
+        const reino_defensa = await prisma.Reino_tiene_defensa.delete({
+            where: {
+                id_reino_id_defensa: {
+                    id_reino: Number(id_reino),
+                    id_defensa: Number(id_defensa)
+                }
             }
-        }
-    })
-    res.json(reino_defensa)
+        })
+        res.json(reino_defensa)
+    } catch(error){
+        console.error(error);
+        res.status(500).json({error: 'Error al eliminar la relación Reino_Defensa'});
+    }
 }
 
 const Reino_tiene_defensaController = {
